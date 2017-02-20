@@ -1,0 +1,87 @@
+
+
+
+
+\begin{algorithm}
+\small
+\caption{Exp-Den ({$budget, budget_{bfs}, n_{start}$})}\label{exp-den}
+\begin{algorithmic}[1]
+%\Function{Exp-den}{$budget, budget_{bfs}, n_{start}$}
+\State $cost \gets 0$
+\State $S \gets bfs(budget_{bfs}, n_{start})$ 
+\While  {$cost \leq budget$}
+	\State $n_{exp} \gets Expansion(S)$
+	\State $S_{s} \gets Densification(n_{exp})$
+	\State $S \gets $ Merge $S_{s}$ with $S$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\begin{center}
+	\captionof{table}{Description of each variable} \label{tab:notation} 
+    \begin{tabular}{  l | l }
+    \hline
+	 &  Description \\ \hline
+	$N_{q}$ & a set of nodes returned from the API request\\
+	$E_{q}$ & a set of edges returned from the API request\\
+	$S$ & a sample graph $S(V',E')$ \\
+	$S^{o}$ & a set of open nodes $n \in V'$\\
+	$S^{c}$ & a set of closed nodes $n \in V'$\\
+	$S_{s}$ & a sub-sample graph $S_{s}(V_{s},E_{s})$\\
+	$S_{s}^{o}$ & a set of open nodes $n \in V_{s}$\\
+	$S_{s}^{c}$ & a set of closed nodes $n \in V_{s}$\\
+	$e_{ij}^{'}$ & $e_{ij} \in E_{s},(i \in S_{s}^{c} \wedge j \in S_{s}^{o})\vee(i \in S_{s}^{o} \wedge j \in S_{s}^{c}) $ \\
+	$sc_{exp}^{t}$ & an expansion score at $t^{th}$ iteration \\
+	$sc_{den}^{t}$ & a densification score at $t^{th}$ iteration \\
+	$n_{exp}$ & a selected node from Expansion phase \\
+	$w_{1}, w_{2}$ & weight \\	
+	%$n_{c_{i}}$ & a set of nodes in $i^{th}$ community \\
+	%$d_{c_{i}}$ & a diameter of $i^{th}$ community\\
+	$|\cdot|$ & a cardinality of a set \\ \hline
+    \end{tabular}
+    
+\end{center}
+
+
+\begin{algorithm}
+\caption{Densification ({$n_{cur}$})}\label{mod}
+\begin{algorithmic}[1]
+%\Function{MOD}{$n_{cur}$}
+\State $S_{s} \gets empty$, $sc^{0}_{den} \gets 1$, $sc^{0}_{exp} \gets 0$
+%\State $sc^{0}_{den} \gets 1$, $sc^{0}_{exp} \gets 0$
+%\State $sc^{0}_{exp} \gets 0$\Comment{Set Expansion score to 0 }
+\While {$sc^{t}_{exp} < sc^{t}_{den}$ or $cost < budget$}
+	\State $N_{q}, E_{q} \gets $Make a query on $n_{cur}$
+	
+	\State $sc^{t}_{den} \gets w_{1}\times \frac{ \vert n \in N_{q} \backslash (S^{o} \cup S_{s}^{o} ) \vert }{\vert S_{s}^{c} \vert} + w_{2} \times sc^{t-1}_{den}$
+	
+%e(i,j) \in S_{s}^{e},(i \in S_{s}^{c} \wedge j \in S_{s}^{o})\vee(i \in S_{s}^{o} \wedge j \in S_{s}^{c}) 	
+	
+	\State $sc^{t}_{exp} \gets w_{1} \times  \frac{\vert e^{'}_{ij} \vert }{\vert S_{s}^{o} \vert}  + w_{2} \times sc^{t-1}_{exp}$
+	\State $S_{s} \gets $ Add $N_{q}, E_{q}$ to sub sample
+	\State $n_{cur} \gets $node with the highest degree in $S_{s}$
+	\State $cost \gets cost + 1 $
+\EndWhile
+
+\Return $S_{s}$
+%\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+%\begin{algorithm}
+%\caption{Expansion ({$S$})}\label{oracle}
+%\begin{algorithmic}[1]
+%	\For {$c_i $  in $C$}
+%		\State $score_{i} \gets \frac{\vert n_{c_i} \vert}{|V|} \times  \frac{1}{d_{c_i}}$  \Comment{ score = gain x spread}
+%	\EndFor
+%	\State $ C_{target} = argmax(score_{i})$
+%	
+%	\For {$n $  in $S^{o}$}
+%		\State $d_{n} \gets $ shortest path length from $n$ to $C_{target}$
+%	\EndFor	
+%	\State $ n_{best} = argmin(d_{n})$
+%
+%\Return $n_{best}$
+%\end{algorithmic}
+%\end{algorithm}
+

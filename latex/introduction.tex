@@ -1,0 +1,19 @@
+\section{Introduction}
+%Nowadays, social network sites are very popular and gain a lot of attention from users, developers and researchers. There are many social network sites that serve different purposes on the internet. For instance, Twitter, Facebook, Linkedln and etc. These are the virtual worlds where people can connect with friends, family, co-workers. People can easily communicate and share their stories to others. It is a place that contains a lot of information from the users.
+%The networks can be represented by graph G(V,E) where V is set of vertices and E is a set of edges. A vertex represents a person and an edge represents a relationship, e.g. frienship, following, follower, or an activity between two users. 
+
+The rise of online social networking sites in recent years has produced a gold mine of data. By analyzing these networks, researchers can understand the interesting behaviors and phenomena which happen in real world systems. However, before data can be analyzed, it must first be collected.
+
+These social networking platforms provide a channel for collecting the data through their APIs. Unfortunately, the APIs come with a limitation. For example, Twitter allows only 15 requests per 15 minutes for crawling following/follower relationships, while Linkedln allows around 1,000 requests for the same interval. As described in~\cite{wendtdata}, it took almost six days to collect all the friends and followers of 8,000 unique users on Twitter. Data collection is a time consuming task and poses a challenge. Given that collecting data is a time-consuming process, how should one determine which nodes to query so that the resulting sample is optimal with respect to a desired goal?
+
+In this paper, we introduced \textit{\ref{algo-name}} sampling, a novel sampling algorithm for the task of collecting data with the goal of maximizing the total number of nodes observed given a limited query budget.  The intuition behind \ref{algo-name} comes from the observation that networks consist of many communities, which are internally tightly connected.  When sampling, it is necessary to transition between these communities in order to observe as many nodes as possible.  Our experiments on real networks demonstrate that \ref{algo-name} performs up to 40\% better than comparison strategies.  
+
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+
+%\subsection{Subsection Heading Here}
+%Subsection text here.
+%
+%
+%\subsubsection{Subsubsection Heading Here}
+%Subsubsection text here.
